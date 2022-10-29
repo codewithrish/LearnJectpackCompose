@@ -24,10 +24,12 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codewithrish.stevdzacompose.ui.theme.StevdzaComposeTheme
@@ -42,7 +44,9 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    CustomText()
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        SuperScriptText(normalText = "Hello", superText = "World!")
+                    }
                 }
             }
         }
@@ -50,17 +54,30 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CustomText() {
-    SelectionContainer {
-        Column {
-            Text(text = "Hello Rishabh!")
-            DisableSelection {
-                Text(text = "Hello Rishabh!")
-                Text(text = "Hello Rishabh!")
-            }
-            Text(text = "Hello Rishabh!")
+fun SuperScriptText(
+    normalText: String,
+    superText: String,
+    normalFontSize: TextUnit = MaterialTheme.typography.subtitle1.fontSize,
+    superTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
+) {
+    Text(buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                fontSize = normalFontSize
+            )
+        ) {
+            append(normalText)
         }
-    }
+        withStyle(
+                style = SpanStyle(
+                fontSize = superTextFontSize,
+                fontWeight = FontWeight.Normal,
+                baselineShift = BaselineShift.Superscript
+            )
+        ){
+            append(superText)
+        }
+    })
 }
 
 @Preview(showBackground = true)
@@ -68,7 +85,7 @@ fun CustomText() {
 fun DefaultPreview() {
     StevdzaComposeTheme {
         Column(modifier = Modifier.fillMaxSize()) {
-            CustomText()
+            SuperScriptText(normalText = "Hello", superText = "World!")
         }
     }
 }
