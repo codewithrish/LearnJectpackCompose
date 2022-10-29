@@ -1,11 +1,14 @@
 package com.codewithrish.stevdzacompose
 
+import android.media.session.PlaybackState.CustomAction
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.DisableSelection
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -48,48 +51,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CustomText() {
-    Text(
-        text = stringResource(id = R.string.app_name),
-        modifier = Modifier
-            .background(MaterialTheme.colors.primary)
-            .padding(16.dp)
-            .width(200.dp),
-        color = Color.White,
-        fontSize = MaterialTheme.typography.h6.fontSize, // 20.sp
-        fontStyle = FontStyle.Italic,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-fun CustomText2() {
-    Text(
-        buildAnnotatedString {
-            withStyle(
-                style = ParagraphStyle(
-                    textAlign = TextAlign.Center
-                )
-            ) {
-                withStyle(
-                    style = SpanStyle(
-                        color = MaterialTheme.colors.primary,
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold
-                    )) {
-                    append("A")
-                }
-                append("B")
-                append("C")
-                append("D")
+    SelectionContainer {
+        Column {
+            Text(text = "Hello Rishabh!")
+            DisableSelection {
+                Text(text = "Hello Rishabh!")
+                Text(text = "Hello Rishabh!")
             }
-        }, modifier = Modifier.width(200.dp)
-    )
-}
-
-@Composable
-fun CustomText3() {
-    Text(text = "Hello Rishabh!".repeat(20), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(text = "Hello Rishabh!")
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -97,9 +68,7 @@ fun CustomText3() {
 fun DefaultPreview() {
     StevdzaComposeTheme {
         Column(modifier = Modifier.fillMaxSize()) {
-            // CustomText()
-            // CustomText2 ()
-            CustomText3 ()
+            CustomText()
         }
     }
 }
