@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -28,6 +29,8 @@ import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
 import coil.transform.RoundedCornersTransformation
 import com.codewithrish.stevdzacompose.ui.theme.StevdzaComposeTheme
+import com.codewithrish.stevdzacompose.ui.theme.color1
+import com.codewithrish.stevdzacompose.ui.theme.color2
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,46 +54,16 @@ fun Greeting() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var password by rememberSaveable {
-            mutableStateOf("")
-        }
-        var passwordVisibility by remember {
-            mutableStateOf(false)
-        }
-
-        val icon = if (passwordVisibility) {
-            painterResource(id = R.drawable.ic_visible)
-        } else {
-            painterResource(id = R.drawable.ic_not_visible)
-        }
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = {
-                password = it
-            },
-            placeholder = {
-                Text(text = "Password")
-            },
-            label = {
-                Text(text = "Password")
-            },
-            trailingIcon = {
-                IconButton(onClick = {
-                    passwordVisibility = !passwordVisibility
-                }) {
-                    Icon(
-                        painter = icon,
-                        contentDescription = "Visibility Icon"
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            ),
-            visualTransformation = if (passwordVisibility) VisualTransformation.None
-            else PasswordVisualTransformation()
-        )
+        GradientButton(
+            text = "Hello Rishabh!",
+            textColor = Color.White,
+            gradient = Brush.horizontalGradient(
+                colors = listOf(
+                    color1,
+                    color2
+                )
+            )
+        ) { }
     }
 }
 
