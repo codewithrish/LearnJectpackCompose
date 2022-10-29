@@ -40,12 +40,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StevdzaComposeTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        SuperScriptText(normalText = "Hello", superText = "World!")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.primary)
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        ExpandableCard(
+                            title = "My Title",
+                            description = "Lorem Ipsum is simply dummy text of " +
+                                    "the printing and typesetting industry. Lorem Ipsum " +
+                                    "has been the industry's standard dummy text ever " +
+                                    "since the 1500s, when an unknown printer took a " +
+                                    "galley of type and scrambled it to make a type " +
+                                    "specimen book"
+                        )
                     }
                 }
             }
@@ -53,39 +67,29 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun SuperScriptText(
-    normalText: String,
-    superText: String,
-    normalFontSize: TextUnit = MaterialTheme.typography.subtitle1.fontSize,
-    superTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
-) {
-    Text(buildAnnotatedString {
-        withStyle(
-            style = SpanStyle(
-                fontSize = normalFontSize
-            )
-        ) {
-            append(normalText)
-        }
-        withStyle(
-                style = SpanStyle(
-                fontSize = superTextFontSize,
-                fontWeight = FontWeight.Normal,
-                baselineShift = BaselineShift.Superscript
-            )
-        ){
-            append(superText)
-        }
-    })
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     StevdzaComposeTheme {
-        Column(modifier = Modifier.fillMaxSize()) {
-            SuperScriptText(normalText = "Hello", superText = "World!")
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.primary)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            ExpandableCard(
+                title = "My Title",
+                description = "Lorem Ipsum is simply dummy text of " +
+                        "the printing and typesetting industry. Lorem Ipsum " +
+                        "has been the industry's standard dummy text ever " +
+                        "since the 1500s, when an unknown printer took a " +
+                        "galley of type and scrambled it to make a type " +
+                        "specimen book"
+            )
         }
     }
 }
