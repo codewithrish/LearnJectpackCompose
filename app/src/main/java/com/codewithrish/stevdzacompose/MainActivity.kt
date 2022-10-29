@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -28,49 +33,63 @@ import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
 import coil.transform.RoundedCornersTransformation
+import com.codewithrish.stevdzacompose.repository.PersonRepository
 import com.codewithrish.stevdzacompose.ui.theme.StevdzaComposeTheme
 import com.codewithrish.stevdzacompose.ui.theme.color1
 import com.codewithrish.stevdzacompose.ui.theme.color2
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             StevdzaComposeTheme {
-                Surface(
-                    color = MaterialTheme.colors.background
+
+                val sections = listOf("A", "B", "C", "D", "E", "F", "G")
+
+                LazyColumn(
+                    contentPadding = PaddingValues(all = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Greeting()
+                    sections.forEach { section ->
+                        stickyHeader {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(Color.LightGray)
+                                    .padding(12.dp),
+                                text = "Section $section"
+                            )
+                        }
+                        items(10) {
+                            Text(
+                                modifier = Modifier.padding(12.dp),
+                                text = "Item $it from the section $section"
+                            )
+                        }
+                    }
                 }
+//                val personRepository = PersonRepository()
+//                val getAllData = personRepository.getAllData()
+//
+//                LazyColumn(
+//                    contentPadding = PaddingValues(all = 12.dp),
+//                    verticalArrangement = Arrangement.spacedBy(12.dp)
+//                ) {
+////                    items(items = getAllData) { person ->
+////                        CustomItem(person = person)
+////                    }
+//                    itemsIndexed(
+//                        items = getAllData,
+//                        key = { _, person ->
+//                            person.id
+//                        }
+//                    ) { index, person ->
+//                        Log.d("MainActivity", index.toString())
+//                        CustomItem(person = person)
+//                    }
+//                }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        GradientButton(
-            text = "Hello Rishabh!",
-            textColor = Color.White,
-            gradient = Brush.horizontalGradient(
-                colors = listOf(
-                    color1,
-                    color2
-                )
-            )
-        ) { }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    StevdzaComposeTheme {
-        Greeting()
     }
 }
