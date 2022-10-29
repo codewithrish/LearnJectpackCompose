@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
@@ -37,58 +40,36 @@ import com.codewithrish.stevdzacompose.repository.PersonRepository
 import com.codewithrish.stevdzacompose.ui.theme.StevdzaComposeTheme
 import com.codewithrish.stevdzacompose.ui.theme.color1
 import com.codewithrish.stevdzacompose.ui.theme.color2
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalFoundationApi::class)
+@AndroidEntryPoint
+class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val mainViewModel: MainViewModel = hiltViewModel()
             StevdzaComposeTheme {
+                val result by mainViewModel.readAll.collectAsState(initial = emptyList())
 
-                val sections = listOf("A", "B", "C", "D", "E", "F", "G")
-
-                LazyColumn(
-                    contentPadding = PaddingValues(all = 12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    sections.forEach { section ->
-                        stickyHeader {
+                    if (result.isNotEmpty()) {
+                        for (person in result) {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(Color.LightGray)
-                                    .padding(12.dp),
-                                text = "Section $section"
+                                text = person.name,
+                                fontSize = MaterialTheme.typography.h4.fontSize
                             )
                         }
-                        items(10) {
-                            Text(
-                                modifier = Modifier.padding(12.dp),
-                                text = "Item $it from the section $section"
-                            )
-                        }
+                    } else {
+                        Text(
+                            text = "Empty Database",
+                            fontSize = MaterialTheme.typography.h4.fontSize
+                        )
                     }
                 }
-//                val personRepository = PersonRepository()
-//                val getAllData = personRepository.getAllData()
-//
-//                LazyColumn(
-//                    contentPadding = PaddingValues(all = 12.dp),
-//                    verticalArrangement = Arrangement.spacedBy(12.dp)
-//                ) {
-////                    items(items = getAllData) { person ->
-////                        CustomItem(person = person)
-////                    }
-//                    itemsIndexed(
-//                        items = getAllData,
-//                        key = { _, person ->
-//                            person.id
-//                        }
-//                    ) { index, person ->
-//                        Log.d("MainActivity", index.toString())
-//                        CustomItem(person = person)
-//                    }
-//                }
             }
         }
     }
