@@ -3,7 +3,7 @@ package com.codewithrish.stevdzacompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.foundation.layout.Column
 import com.codewithrish.stevdzacompose.ui.theme.StevdzaComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,7 +14,11 @@ class MainActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StevdzaComposeTheme {
-                MainScreen(mainViewModel = hiltViewModel())
+                Column {
+                    repeat(7){
+                        AnimatedShimmer()
+                    }
+                }
             }
         }
     }
